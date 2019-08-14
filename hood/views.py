@@ -57,3 +57,25 @@ def edit_profile(request,username):
     return render(request,'edit_profile.html',{"form":form})
 
 
+@login_required
+def companies(request):
+    current_user = request.user
+    neighborhood = UserProfile.objects.get(user = current_user).neighborhood
+    if request.method == 'POST':
+        form = CompanyForm(request.POST)
+        if form.is_valid():
+            company = form.save(commit=False)
+            company.user = current_user
+            company.neighborhood = neighborhood
+            company.save()
+            return redirect('companies')
+    else:
+        form = CompanyForm()
+
+    try:
+        companies = Company.objects.filter(neighborhood = neighborhood)
+    except:
+        companies = None
+
+    return render(request,'companies.html',{"companies":companies,"form":form})
+
