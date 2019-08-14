@@ -1,11 +1,10 @@
-from django.conf.urls import url
+from django.urls import path,re_path
 from . import views
-from django.conf import settings
-from django.conf.urls.static import static
 
-urlpatterns=[
-  url('^$',views.home,name='home'),
-  
+urlpatterns = [
+    path('',views.index,name = 'index'),
+    re_path('edit_profile/(?P<username>\w{0,50})',views.edit_profile,name = 'edit_profile'),
+    path('companies',views.companies,name = 'companies'),
+    re_path('post/(?P<id>\d+)',views.post,name='post'),
+    path('search/',views.search,name='search'),
 ]
-if settings.DEBUG:
-    urlpatterns+= static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
