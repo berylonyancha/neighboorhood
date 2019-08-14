@@ -29,5 +29,31 @@ def index(request):
     else:
         form = PostForm()
     return render(request,'index.html',{"posts":posts,"profile":profile,"form":form})
+@login_required
+def edit_profile(request,username):
+    current_user = request.user
+    if request.method == 'POST':
+        try:
+            profile = UserProfile.objects.get(user=current_user)
+            form = UserProfileForm(request.POST,instance=profile)
+            if form.is_valid():
+                profile = form.save(commit=False)
+                profile.user = current_user
+                profile.save()
+            return redirect('index')
+        except:
+            form = UserProfileForm(request.POST)
+            if form.is_valid():
+                profile = form.save(commit=False)
+                profile.user = current_user
+                profile.save()
+            return redirect('index')
+    else:
+        if UserProfile.objects.filter(user=current_user):
+            profile = UserProfile.objects.get(user=current_user)
+            form = UserProfileForm(instance=profile)
+        else:
+            form = UserProfileForm()
+    return render(request,'edit_profile.html',{"form":form})
 
 
