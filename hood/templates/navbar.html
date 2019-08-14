@@ -1,0 +1,30 @@
+{% load static %}
+<nav class="black darken-1">
+  <div class="nav-wrapper">
+    <!-- <a href="/" class="brand-logo center">Hood</a> -->
+    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="left hide-on-med-and-down">
+        <li><a href="/">Hood</a></li>
+        <li><a href="{% url 'companies' %}">Companies</a></li>
+        <li><a href="{% url 'edit_profile' user.username %}">Profile</a></li>
+      </ul>
+      <a href="/logout" class="right">Log Out</a>
+      <a class="right" href="{% url 'edit_profile' user.username %}" style="margin: 10px;"><img src="{% static 'images/user.png' %}" alt="" height="40" width="40"></a>
+      <ul class="">
+          <li><form class="" action="{% url 'search' %}">
+            <div id="custom-search-input">
+                  <div class="input-group col-md-12 ui-widget">
+                      <input id="search" type="text" class="form-control input-lg" placeholder="Search " name="search" />
+                  </div>
+              </div>
+        </form></li>
+
+      </ul>
+  </div>
+</nav>
+
+<ul class="sidenav" id="mobile-demo">
+    <li><a href="{% url 'companies' %}">Companies</a></li>
+    <li><a href="{% url 'edit_profile' user.username %}">Profile</a></li>
+    <li><a href="/logout">Log Out</a></li>
+ </ul>
