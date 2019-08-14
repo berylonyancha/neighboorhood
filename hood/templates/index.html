@@ -1,0 +1,137 @@
+{% include 'base.html' %}
+{% load bootstrap4%}
+{% block content %}
+    
+              <div class="header">
+                  <h2>{{profile.neighborhood}}</h2>
+                </div>
+              <div class="cont-posts">
+                <div class="row">
+                  {% for post in posts %}
+                  <div class="leftcolumn">
+                    <div class="card">
+                      <h2>{{post.title}}</h2>
+                      <div class="fakeimg" style="height:200px;">Image</div>
+                      <p>{{post.content|truncatechars:200}}</p>
+                      <a class="btn btn-dark" href="{% url 'post' post.id %}">Read</a>
+                    </div>
+                    </div>
+                  {% endfor %}
+                  </div>
+                  <div class="rightcolumn">
+                    <div class="card">
+                      <h2>About The Hood</h2>
+                      <p>A Thriving Neighbor Hood with loving and friendly residents</p>
+                    </div>
+                    <div class="card">
+                      <h3>Emergency Contacts</h3>
+                      <div class="">Ambulance:5674 / 020-2222181 </div><br>
+                      <div class="">Police:999 / +254 203 414 11 </div><br>
+                      <div class="">Fire Brigade:2222181</div>
+                    </div>
+              
+                  </div>
+              </div>
+              
+            <div class="fixed-action-btn">
+                <a class="btn-floating btn-large black modal-trigger" href="#modal1"><i class="large material-icons">add</i></a>
+            </div>
+        </div>
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal" style="max-height: 800px;">
+          <form action="{%url 'index' %}" method='post' enctype="multipart/form-data">
+          <div class="modal-content">
+            <h4>Add a Post</h4>
+
+                {% csrf_token %}
+                {{ form }}
+
+          </div>
+          <div class="modal-footer">
+              <button type='submit' class="btn btn-success" style="margin-right:20px;">Submit</button>
+          </div>
+          </form>
+        </div>
+        <style>
+body {
+  font-family: Arial;
+  padding: 20px;
+  background: #f1f1f1;
+}
+
+/* Header/Blog Title */
+.header {
+  padding: 30px;
+  font-size: 40px;
+  text-align: center;
+  background: white;
+}
+
+/* Create two unequal columns that floats next to each other */
+/* Left column */
+.leftcolumn { 
+  /* float: left; */
+  width: 72%;
+  box-sizing: border-box;
+}
+
+/* Right column */
+.rightcolumn {
+  /* float: right; */
+  box-sizing: border-box;
+  width: 22%;
+  padding: 10px;
+}
+.cont-posts{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+ 
+}
+/* Fake image */
+.fakeimg {
+  background-color: #aaa;
+  width: 100%;
+  padding: 20px;
+}
+
+/* Add a card effect for articles */
+.card {
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Footer */
+.footer {
+  padding: 20px;
+  text-align: center;
+  background: #ddd;
+  margin-top: 20px;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+  .leftcolumn, .rightcolumn { 
+    width: 100%;
+    padding: 0;
+  }
+}
+        </style>
+          {% block script%}
+          <script type="text/javascript">
+              $(document).ready(function(){
+                $('.modal').modal();
+                $('select').formSelect();
+              });
+          </script>
+          {% endblock %}
+    </div>
+{% endblock %}
