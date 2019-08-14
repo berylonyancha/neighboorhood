@@ -80,3 +80,40 @@ class NeighborhoodTestClass(TestCase):
         self.neighborhood.update_occupants()
         self.updated_neighborhood = Neighborhood.objects.get(id=1)
         self.assertTrue(self.updated_neighborhood.occupants == 2)
+
+class CompanyTestClass(TestCase):
+    #Setup method
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='12345')
+        self.location = Location(id=1,name='Test name')
+        self.neighborhood = Neighborhood(id=1,name='Test name',location=self.location,admin=self.user,occupants=1)
+        self.category = Category(id=1,name='Test name')
+        self.company = Company(id=1,name='Test',user=self.user,description='Test description',neighborhood=self.neighborhood,category=self.category,email='test@test.com')
+        self.location.save()
+        self.neighborhood.save()
+        self.category.save()
+        self.company.save()
+
+
+    #Testing instance
+    def test_instance(self):
+        self.assertTrue(isinstance(self.company,Company))
+
+    def test_create_company(self):
+        self.company.create_company()
+        self.assertTrue(len(Company.objects.all()) > 0)
+
+    def test_delete_company(self):
+        self.company.delete_company()
+        self.assertTrue(len(Company.objects.all()) == 0)
+
+    def test_find_company(self):
+        self.company = Company.find_company(1)
+        self.assertEqual(self.company.id, 1)
+
+    def test_update_company(self):
+        self.company = Company.find_company(1)
+        self.company.name = 'Changed name'
+        self.company.update_company()
+        self.updated_company = Company.find_company(1)
+        self.assertEqual(self.updated_company.name, 'Changed name')
