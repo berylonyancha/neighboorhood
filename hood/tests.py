@@ -12,3 +12,13 @@ class UserProfileTestClass(TestCase):
     def test_instance(self):
         self.assertTrue(isinstance(self.profile,UserProfile))
 
+class PostTestClass(TestCase):
+    # Set up method
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='12345')
+        self.post = Post(id=1,title='Test',content='This is a test',user = self.user)
+
+    #Testing instance
+    def test_instance(self):
+        self.assertTrue(isinstance(self.post,Post))
+
